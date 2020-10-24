@@ -24,20 +24,26 @@ class JsonSerializableAddressBook {
     public static final String MESSAGE_DUPLICATE_MODULE = "Modules list contains duplicate module(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
-    private final List<JsonAdaptedModule> modules = new ArrayList<>();
+    private final List<JsonAdaptedModule> modules1 = new ArrayList<>();
+    private final List<JsonAdaptedModule> modules2 = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons and modules.
      */
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
-                                       @JsonProperty("modules") List<JsonAdaptedModule> modules) {
+                                       @JsonProperty("modules1") List<JsonAdaptedModule> modules1,
+                                       @JsonProperty("modules2") List<JsonAdaptedModule> modules2) {
         if (persons != null) {
             this.persons.addAll(persons);
         }
 
-        if (modules != null) {
-            this.modules.addAll(modules);
+        if (modules1 != null) {
+            this.modules1.addAll(modules1);
+        }
+
+        if (modules2 != null) {
+            this.modules2.addAll(modules2);
         }
     }
 
@@ -48,7 +54,9 @@ class JsonSerializableAddressBook {
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
-        modules.addAll(source.getModuleList().getInternalList().stream()
+        modules1.addAll(source.getModuleList(0).getInternalList().stream()
+                .map(JsonAdaptedModule::new).collect(Collectors.toList()));
+        modules2.addAll(source.getModuleList(1).getInternalList().stream()
                 .map(JsonAdaptedModule::new).collect(Collectors.toList()));
     }
 
@@ -67,12 +75,20 @@ class JsonSerializableAddressBook {
             addressBook.addPerson(person);
         }
 
-        for (JsonAdaptedModule jsonAdaptedModule : modules) {
+        for (JsonAdaptedModule jsonAdaptedModule : modules1) {
             Module module = jsonAdaptedModule.toModelType();
-            if (addressBook.hasModule(module)) {
+            if (addressBook.hasModule(module, 0)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_MODULE);
             }
-            addressBook.addModule(module);
+            addressBook.addModule(module, 0);
+        }
+
+        for (JsonAdaptedModule jsonAdaptedModule : modules2) {
+            Module module = jsonAdaptedModule.toModelType();
+            if (addressBook.hasModule(module, 1)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_MODULE);
+            }
+            addressBook.addModule(module, 1);
         }
         return addressBook;
     }

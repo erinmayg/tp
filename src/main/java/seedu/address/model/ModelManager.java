@@ -22,6 +22,7 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
+    private final int semester;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Module> filteredModules;
@@ -29,7 +30,7 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs, int semester) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
@@ -38,11 +39,12 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        filteredModules = new FilteredList<>(this.addressBook.getModuleList().asUnmodifiableObservableList());
+        filteredModules = new FilteredList<>(this.addressBook.getModuleList(semester).asUnmodifiableObservableList());
+        this.semester = semester;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new UserPrefs(), 1);
     }
 
     //=========== UserPrefs ==================================================================================
@@ -51,6 +53,14 @@ public class ModelManager implements Model {
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
         requireNonNull(userPrefs);
         this.userPrefs.resetData(userPrefs);
+    }
+
+    public ModelManager switchSemester() {
+        return new ModelManager(this.addressBook, this.userPrefs, semester == 0 ? 1 : 0);
+    }
+
+    public int getSemester() {
+        return this.semester;
     }
 
     @Override
@@ -129,34 +139,34 @@ public class ModelManager implements Model {
     @Override
     public void deleteModule(ModuleCode moduleCode) {
         requireNonNull(moduleCode);
-        addressBook.removeModule(moduleCode);
+        addressBook.removeModule(moduleCode, semester);
     }
 
     @Override
     public boolean isEmptyModuleList() {
-        return addressBook.getModuleList().isEmptyList();
+        return addressBook.getModuleList(semester).isEmptyList();
     }
 
     @Override
     public void clearMod() {
-        addressBook.clearMod();
+        addressBook.clearMod(semester);
     }
 
     @Override
     public boolean hasModule(Module module) {
         requireNonNull(module);
-        return addressBook.hasModule(module);
+        return addressBook.hasModule(module, semester);
     }
 
     @Override
     public boolean hasModuleCode(ModuleCode moduleCode) {
         requireNonNull(moduleCode);
-        return addressBook.hasModuleCode(moduleCode);
+        return addressBook.hasModuleCode(moduleCode, semester);
     }
 
     @Override
     public void addModule(Module module) {
-        addressBook.addModule(module);
+        addressBook.addModule(module, semester);
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 

@@ -20,7 +20,8 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
-    private final UniqueModuleList modules;
+    private final UniqueModuleList[] modules;
+    private int semester;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -31,7 +32,10 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
-        modules = new UniqueModuleList();
+        modules = new UniqueModuleList[2];
+        modules[0] = new UniqueModuleList();
+        modules[1] = new UniqueModuleList();
+        semester = 0;
     }
 
     public AddressBook() {}
@@ -55,11 +59,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Replaces the contents of the person list with {@code modules}.
+     * Replaces the contents of the module list with {@code modules}.
      * {@code modules} must not contain duplicate modules.
      */
-    public void setModules(UniqueModuleList modules) {
-        this.modules.setModules(modules);
+    public void setModules(UniqueModuleList modules, int semester) {
+        this.modules[semester].setModules(modules);
     }
 
     /**
@@ -69,7 +73,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
-        setModules(newData.getModuleList());
+        setModules(newData.getModuleList(0), 0);
+        setModules(newData.getModuleList(1), 1);
     }
 
 
@@ -117,48 +122,48 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes the module with the specified {@code moduleCode} from this {@code AddressBook}.
      * Module with the {@code moduleCode} must exist in the address book.
      */
-    public void removeModule(ModuleCode moduleCode) {
-        modules.removeModuleWithCode(moduleCode);
+    public void removeModule(ModuleCode moduleCode, int semester) {
+        modules[semester].removeModuleWithCode(moduleCode);
     }
 
     /**
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
-    public void removeModule(Module key) {
-        modules.remove(key);
+    public void removeModule(Module key, int semester) {
+        modules[semester].remove(key);
     }
 
     /**
      * Removes all the modules from the list.
      */
-    public void clearMod() {
-        modules.clearAll();
+    public void clearMod( int semester ) {
+        modules[semester].clearAll();
     }
 
     //// module-level operations
     /**
      * Returns true if a module with the same identity as {@code module} exists in the address book.
      */
-    public boolean hasModule(Module module) {
+    public boolean hasModule(Module module, int semester) {
         requireNonNull(module);
-        return modules.contains(module);
+        return modules[semester].contains(module);
     }
 
     /**
      * Returns true if a module with the same module code as {@code moduleCode} exists in the address book.
      */
-    public boolean hasModuleCode(ModuleCode moduleCode) {
+    public boolean hasModuleCode(ModuleCode moduleCode, int semester) {
         requireNonNull(moduleCode);
-        return modules.containsModuleCode(moduleCode);
+        return modules[semester].containsModuleCode(moduleCode);
     }
 
     /**
      * Adds a module to the address book.
      * The module must not already exist in the address book.
      */
-    public void addModule(Module m) {
-        modules.add(m);
+    public void addModule(Module m, int semester) {
+        modules[semester].add(m);
     }
 
     /**
@@ -169,7 +174,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void setModule(Module target, Module editedModule) {
         requireAllNonNull(target, editedModule);
 
-        modules.setModule(target, editedModule);
+        modules[semester].setModule(target, editedModule);
     }
 
     /**
@@ -179,11 +184,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void assignInstructor(Person instructor, ModuleCode moduleCode) {
         requireAllNonNull(instructor, moduleCode);
 
-        modules.assignInstructor(instructor, moduleCode);
+        modules[semester].assignInstructor(instructor, moduleCode);
     }
 
     public void unassignAllInstructors() {
-        modules.unassignAllInstructors();
+        modules[semester].unassignAllInstructors();
     }
 
     /**
@@ -193,7 +198,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void unassignInstructor(Person instructor, ModuleCode moduleCode) {
         requireAllNonNull(instructor, moduleCode);
 
-        modules.unassignInstructor(instructor, moduleCode);
+        modules[semester].unassignInstructor(instructor, moduleCode);
     }
 
     /**
@@ -203,7 +208,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public boolean moduleCodeHasInstructor(ModuleCode moduleCode, Person instructor) {
         requireAllNonNull(instructor, moduleCode);
-        return modules.moduleCodeHasInstructor(moduleCode, instructor);
+        return modules[semester].moduleCodeHasInstructor(moduleCode, instructor);
     }
 
     //// util methods
@@ -219,9 +224,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         return persons.asUnmodifiableObservableList();
     }
 
-    public UniqueModuleList getModuleList() {
+    public UniqueModuleList getModuleList(int semester) {
         // Currently no support for "contains" method for observable list
-        return modules;
+        return modules[semester];
     }
 
     @Override
@@ -229,7 +234,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         return other == this // short circuit if same object
                 || (other instanceof AddressBook // instanceof handles nulls
                 && persons.equals(((AddressBook) other).persons)
-                && modules.equals(((AddressBook) other).modules));
+                && modules[0].equals(((AddressBook) other).modules[0])
+                && modules[1].equals(((AddressBook) other).modules[1]));
     }
 
     @Override
