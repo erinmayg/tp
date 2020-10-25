@@ -67,7 +67,7 @@ public interface Model {
      */
     boolean isEmptyPersonList();
 
-    ModelManager switchSemester();
+    void switchSemester();
 
     int getSemester();
 

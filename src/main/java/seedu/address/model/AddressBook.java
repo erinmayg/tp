@@ -21,7 +21,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniqueModuleList[] modules;
-    private int semester;
+    private final UniqueModuleList displayModules;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -35,7 +35,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         modules = new UniqueModuleList[2];
         modules[0] = new UniqueModuleList();
         modules[1] = new UniqueModuleList();
-        semester = 0;
+        displayModules = new UniqueModuleList();
     }
 
     public AddressBook() {}
@@ -62,8 +62,10 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Replaces the contents of the module list with {@code modules}.
      * {@code modules} must not contain duplicate modules.
      */
-    public void setModules(UniqueModuleList modules, int semester) {
-        this.modules[semester].setModules(modules);
+    public void setModules(UniqueModuleList modules1, UniqueModuleList modules2) {
+        this.modules[0].setModules(modules1);
+        this.modules[1].setModules(modules2);
+        this.displayModules.setModules(modules1);
     }
 
     /**
@@ -73,9 +75,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
-        setModules(newData.getModuleList(0), 0);
-        setModules(newData.getModuleList(1), 1);
+        setModules(newData.getModuleList(0), newData.getModuleList(1));
     }
+
+    /*public void switchSemester() {
+        this.semester = semester == 0 ? 1 : 0;
+    }*/
 
 
     //// person-level operations
@@ -124,6 +129,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removeModule(ModuleCode moduleCode, int semester) {
         modules[semester].removeModuleWithCode(moduleCode);
+        displayModules.removeModuleWithCode(moduleCode);
     }
 
     /**
@@ -132,6 +138,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removeModule(Module key, int semester) {
         modules[semester].remove(key);
+        displayModules.remove(key);
     }
 
     /**
@@ -139,6 +146,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void clearMod( int semester ) {
         modules[semester].clearAll();
+        displayModules.clearAll();
     }
 
     //// module-level operations
@@ -164,6 +172,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addModule(Module m, int semester) {
         modules[semester].add(m);
+        displayModules.add(m);
     }
 
     /**
@@ -171,34 +180,38 @@ public class AddressBook implements ReadOnlyAddressBook {
      * {@code target} must exist in the address book.
      * The person identity of {@code editedModule} must not be the same as another existing person in the address book.
      */
-    public void setModule(Module target, Module editedModule) {
+    public void setModule(Module target, Module editedModule, int semester) {
         requireAllNonNull(target, editedModule);
 
         modules[semester].setModule(target, editedModule);
+        displayModules.setModule(target,editedModule);
     }
 
     /**
      * Assigns an {@code instructor} to the module with the given {@code moduleCode}.
      * The module with the {@code moduleCode} must exist in the address book.
      */
-    public void assignInstructor(Person instructor, ModuleCode moduleCode) {
+    public void assignInstructor(Person instructor, ModuleCode moduleCode , int semester) {
         requireAllNonNull(instructor, moduleCode);
 
         modules[semester].assignInstructor(instructor, moduleCode);
+        displayModules.assignInstructor(instructor, moduleCode);
     }
 
-    public void unassignAllInstructors() {
+    public void unassignAllInstructors(int semester) {
         modules[semester].unassignAllInstructors();
+        displayModules.unassignAllInstructors();
     }
 
     /**
      * Unassigns an {@code instructor} from the module with the given {@code moduleCode}.
      * The module with the {@code moduleCode} must exist in the address book.
      */
-    public void unassignInstructor(Person instructor, ModuleCode moduleCode) {
+    public void unassignInstructor(Person instructor, ModuleCode moduleCode, int semester) {
         requireAllNonNull(instructor, moduleCode);
 
         modules[semester].unassignInstructor(instructor, moduleCode);
+        displayModules.unassignInstructor(instructor, moduleCode);
     }
 
     /**
@@ -206,7 +219,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * The module with the {@code moduleCode} must exist in the address book.
      * @return true if the {@code instructor} is an instructor of the module with the {@code moduleCode}
      */
-    public boolean moduleCodeHasInstructor(ModuleCode moduleCode, Person instructor) {
+    public boolean moduleCodeHasInstructor(ModuleCode moduleCode, Person instructor, int semester) {
         requireAllNonNull(instructor, moduleCode);
         return modules[semester].moduleCodeHasInstructor(moduleCode, instructor);
     }
@@ -229,13 +242,18 @@ public class AddressBook implements ReadOnlyAddressBook {
         return modules[semester];
     }
 
+    public UniqueModuleList getDisplayModuleList() {
+        return displayModules;
+    }
+
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddressBook // instanceof handles nulls
                 && persons.equals(((AddressBook) other).persons)
                 && modules[0].equals(((AddressBook) other).modules[0])
-                && modules[1].equals(((AddressBook) other).modules[1]));
+                && modules[1].equals(((AddressBook) other).modules[1])
+                && displayModules.equals(((AddressBook) other).displayModules));
     }
 
     @Override

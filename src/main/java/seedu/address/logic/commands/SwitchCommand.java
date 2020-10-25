@@ -13,7 +13,7 @@ public class SwitchCommand extends Command {
 
     public static final String COMMAND_WORD = "switch";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + " : Switch working module list to the other semester"
+    public static String MESSAGE_USAGE = COMMAND_WORD + " : Switch working module list to the other semester"
             + "\nExample: " + COMMAND_WORD;
 
     public static final String MESSAGE_SUCCESS = "Switched module list ";
@@ -22,7 +22,7 @@ public class SwitchCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model = model.switchSemester();
+        model.switchSemester();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
