@@ -19,7 +19,7 @@ public interface ReadOnlyAddressBook {
      * Returns an unmodifiable view of the modules list.
      * This list will not contain any duplicate modules.
      */
-    UniqueModuleList getModuleList();
+    UniqueModuleList getModuleList(int semester);
 
 
 }

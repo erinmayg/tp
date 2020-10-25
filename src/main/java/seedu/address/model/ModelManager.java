@@ -22,6 +22,7 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
+    private int semester;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Module> filteredModules;
@@ -29,7 +30,7 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs, int semester) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
@@ -38,11 +39,13 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        filteredModules = new FilteredList<>(this.addressBook.getModuleList().asUnmodifiableObservableList());
+        filteredModules = new FilteredList<>(this.addressBook.getDisplayModuleList().asUnmodifiableObservableList());
+
+        this.semester = semester;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new UserPrefs(), 0);
     }
 
     //=========== UserPrefs ==================================================================================
@@ -51,6 +54,15 @@ public class ModelManager implements Model {
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
         requireNonNull(userPrefs);
         this.userPrefs.resetData(userPrefs);
+    }
+
+    public void switchSemester() {
+        semester = semester == 0 ? 1 : 0;
+        this.addressBook.getDisplayModuleList().setModules(this.addressBook.getModuleList(semester));
+    }
+
+    public int getSemester() {
+        return this.semester;
     }
 
     @Override
@@ -129,59 +141,59 @@ public class ModelManager implements Model {
     @Override
     public void deleteModule(ModuleCode moduleCode) {
         requireNonNull(moduleCode);
-        addressBook.removeModule(moduleCode);
+        addressBook.removeModule(moduleCode, semester);
     }
 
     @Override
     public boolean isEmptyModuleList() {
-        return addressBook.getModuleList().isEmptyList();
+        return addressBook.getModuleList(semester).isEmptyList();
     }
 
     @Override
     public void clearMod() {
-        addressBook.clearMod();
+        addressBook.clearMod(semester);
     }
 
     @Override
     public boolean hasModule(Module module) {
         requireNonNull(module);
-        return addressBook.hasModule(module);
+        return addressBook.hasModule(module, semester);
     }
 
     @Override
     public boolean hasModuleCode(ModuleCode moduleCode) {
         requireNonNull(moduleCode);
-        return addressBook.hasModuleCode(moduleCode);
+        return addressBook.hasModuleCode(moduleCode, semester);
     }
 
     @Override
     public void addModule(Module module) {
-        addressBook.addModule(module);
+        addressBook.addModule(module, semester);
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
     @Override
     public void assignInstructor(Person instructor, ModuleCode moduleCode) {
-        addressBook.assignInstructor(instructor, moduleCode);
+        addressBook.assignInstructor(instructor, moduleCode, this.semester);
     }
 
     @Override
     public void unassignAllInstructors() {
-        addressBook.unassignAllInstructors();
+        addressBook.unassignAllInstructors(this.semester);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
     @Override
     public void unassignInstructor(Person instructor, ModuleCode moduleCode) {
-        addressBook.unassignInstructor(instructor, moduleCode);
+        addressBook.unassignInstructor(instructor, moduleCode, this.semester);
         updateFilteredModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
     @Override
     public boolean moduleCodeHasInstructor(ModuleCode moduleCode, Person instructor) {
         requireAllNonNull(instructor, moduleCode);
-        return addressBook.moduleCodeHasInstructor(moduleCode, instructor);
+        return addressBook.moduleCodeHasInstructor(moduleCode, instructor, this.semester);
     }
 
 

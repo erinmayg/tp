@@ -67,6 +67,10 @@ public interface Model {
      */
     boolean isEmptyPersonList();
 
+    void switchSemester();
+
+    int getSemester();
+
     /**
      * Clear all modules from the contact list.
      * The list must have at least one contact.

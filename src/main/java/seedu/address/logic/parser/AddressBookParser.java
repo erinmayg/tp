@@ -24,6 +24,7 @@ import seedu.address.logic.commands.MclearCommand;
 import seedu.address.logic.commands.MlistCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.ResetCommand;
+import seedu.address.logic.commands.SwitchCommand;
 import seedu.address.logic.commands.UnassignCommand;
 import seedu.address.logic.commands.UnassignallCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -66,6 +67,9 @@ public class AddressBookParser {
 
         case ResetCommand.COMMAND_WORD:
             return new ResetCommand();
+
+        case SwitchCommand.COMMAND_WORD:
+            return new SwitchCommand();
 
         case RemarkCommand.COMMAND_WORD:
             return new RemarkCommandParser().parse(arguments);
