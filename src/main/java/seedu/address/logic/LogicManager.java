@@ -71,6 +71,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public int getSemester() {
+        return model.getSemester();
+    }
+
+    @Override
     public Path getAddressBookFilePath() {
         return model.getAddressBookFilePath();
     }

@@ -1,6 +1,5 @@
 package seedu.address.ui;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -35,11 +34,9 @@ public class ModuleListPanel extends UiPart<Region> {
             super.updateItem(module, empty);
 
             if (empty || module == null) {
-                logger.log(Level.INFO, "Module is empty.");
                 setGraphic(null);
                 setText(null);
             } else {
-                logger.log(Level.INFO, "Updated module view.");
                 setGraphic(new ModuleCard(module, getIndex() + 1).getRoot());
             }
         }

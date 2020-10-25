@@ -6,6 +6,10 @@
     background-color: #0B132B; /* Used in the default.html file */
 }
 
+*:disabled {
+    -fx-opacity: 100;
+}
+
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
@@ -78,6 +82,7 @@
     -fx-border-radius: 1;
     -fx-border-width: 1;
     -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: black;
 }
 
 .list-view {
@@ -98,6 +103,7 @@
     -fx-graphic-text-gap : 0;
     -fx-padding: 3px;
     -fx-background-insets: 0px, 2px;
+    -fx-background-color: transparent;
 }
 
 #moduleListView .list-cell:filled:even {
@@ -129,8 +135,15 @@
 }
 
 .list-cell:filled:selected #cardPane {
-    -fx-border-color: #3e7b91;
-    -fx-border-width: 1;
+    -fx-border-color: red;
+    -fx-border-radius: 15px;
+    -fx-border-width: 1px;
+}
+
+#personListView .list-cell:filled:selected #cardPane {
+    -fx-border-color: purple;
+    -fx-border-radius: 15px;
+    -fx-border-width: 1px;
 }
 
 .list-cell .label {
@@ -386,10 +399,6 @@
 
 .tab:top {
     -fx-background-insets: 0;
-}
-
-.tab:hover {
-    -fx-background-color: #b54343;
 }
 
 .tab:selected {

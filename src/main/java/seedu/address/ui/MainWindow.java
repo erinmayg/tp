@@ -4,7 +4,9 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
@@ -41,6 +43,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private MenuItem helpMenuItem;
+
+    @FXML
+    private TabPane semsPanelPlaceholder;
 
     @FXML
     private StackPane personListPanelPlaceholder;
@@ -170,6 +175,21 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * Switches the semester view.
+     */
+    @FXML
+    private void handleSwitchSem() {
+        int semester = logic.getSemester();
+        int toIndex = semester == 1 ? 1 : 0;
+
+        Node content = semsPanelPlaceholder.getSelectionModel().getSelectedItem().getContent();
+        semsPanelPlaceholder.getSelectionModel().getSelectedItem().setContent(null);
+        semsPanelPlaceholder.getSelectionModel().select(toIndex);
+        semsPanelPlaceholder.getSelectionModel().getSelectedItem().setContent(content);
+        semsPanelPlaceholder.getSelectionModel().getSelectedItem();
+    }
+
     public PersonListPanel getPersonListPanel() {
         return personListPanel;
     }
@@ -195,6 +215,10 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+            if (commandResult.isSwitchSem()) {
+                handleSwitchSem();
             }
 
             return commandResult;
