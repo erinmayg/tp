@@ -17,7 +17,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ### Architecture
 
-<img src="images/ArchitectureDiagram.png" />
+<img src="images/ArchitectureDiagram.png" width="450px"/>
 
 The ***Architecture Diagram*** given above explains the high-level design of the App. Given below is a quick overview of each component.
 
@@ -133,6 +133,7 @@ The `Storage` component,
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Implementation**
 
@@ -188,7 +189,9 @@ The following sequence diagram shows how the find module by module attributes op
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `FindModCommandParser` should
  end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
-<br/>
+
+<div style="page-break-after: always;"></div>
+
 The following activity diagram summarizes what happens when a user executes a findmod command:
 
 ![FindmodActivityDiagram](images/FindmodActivityDiagram.png)
@@ -204,6 +207,8 @@ The following activity diagram summarizes what happens when a user executes a fi
 * **Alternative 2:** And searching across attributes and OR searching between keywords for module name and instructor attributes.
   * Pros : Provides the ability for a very general and flexible search.
   * Cons : Unable to have a more focused search, might be more confusing for the user to narrow down his/her searches.
+
+<div style="page-break-after: always;"></div>
 
 ### Delete modules feature
 
@@ -231,7 +236,8 @@ The following sequence diagram shows how the deleting of the module works:
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DelmodCommandParser` should
  end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
-<br/>
+
+<div style="page-break-after: always;"></div>
 
 The following activity diagram summarizes what happens when a user executes a delmod command:
 
@@ -248,6 +254,8 @@ The following activity diagram summarizes what happens when a user executes a de
   * Pros : Dean does not have to memorise all the module code, can simply delete based on what is shown in the module list.
   * Cons : Less intuitive.
 
+<div style="page-break-after: always;"></div>
+
 ### Assign feature
 
 #### Implementation
@@ -263,7 +271,8 @@ The following sequence diagram shows how the assign operation works:
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `AssignCommandParser` should
  end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
-<br/>
+
+<div style="page-break-after: always;"></div>
 
 The following activity diagram summarizes what happens when a user executes an assign command:
 
@@ -282,6 +291,8 @@ The following activity diagram summarizes what happens when a user executes an a
 
 Both are equally viable options but Alternative 1 was chosen so `Person` would not have to be redesigned or have too many fields.
 
+<div style="page-break-after: always;"></div>
+
 ### Unassign feature
 
 The unassign feature is facilitated by `UnassignCommand` and `UnassignCommandParser`.
@@ -297,9 +308,13 @@ The following sequence diagram shows how the unassign operation works:
 </div>
 <br/>
 
+<div style="page-break-after: always;"></div>
+
 The following activity diagram summarizes what happens when a user executes an unassign command:
 
 ![UnassignActivityDiagram](images/UnassignActivityDiagram.png)
+
+<div style="page-break-after: always;"></div>
 
 ### Unassignall feature
 
@@ -316,6 +331,8 @@ The following sequence diagram shows how the unassignall operation works:
 </div>
 <br/>
 
+<div style="page-break-after: always;"></div>
+
 The following activity diagram summarizes what happens when a user executes an unassignall command:
 
 ![UnassignallActivityDiagram](images/UnassignallActivityDiagram.png)
@@ -331,6 +348,8 @@ The following activity diagram summarizes what happens when a user executes an u
 * **Alternative 2:** Unassign a certain instructor from all modules he/she instructs.
  * Pros : More efficient to unassign a certain instructor from all modules he/she instructs.
  * Cons : Less efficient to unassign all instructors from all modules.
+
+<div style="page-break-after: always;"></div>
 
 ### Clear all contacts feature
 
@@ -349,11 +368,12 @@ The following sequence diagram shows how the cclear operation works:
  end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
 <br/>
-
+<div style="page-break-after: always;"></div>
 The following activity diagram summarizes what happens when a user executes a cclear command:
 
 ![CclearActivityDiagram](images/CclearActivityDiagram.png)
 
+<div style="page-break-after: always;"></div>
 ### Clear all modules feature
 
 #### Implementation
