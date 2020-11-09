@@ -12,6 +12,7 @@ title: Developer Guide
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Design**
 
@@ -21,6 +22,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 The ***Architecture Diagram*** given above explains the high-level design of the App. Given below is a quick overview of each component.
 
+<div style="page-break-after: always;"></div>
 <div markdown="span" class="alert alert-primary">
 
 :bulb: **Tip:** The `.puml` files used to create diagrams in this document can be found in the [diagrams](https://github.com/AY2021S1-CS2103-T14-1/tp/tree/master/docs/diagrams/) folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
@@ -368,7 +370,9 @@ The following sequence diagram shows how the cclear operation works:
  end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
 <br/>
+
 <div style="page-break-after: always;"></div>
+
 The following activity diagram summarizes what happens when a user executes a cclear command:
 
 ![CclearActivityDiagram](images/CclearActivityDiagram.png)
@@ -389,11 +393,14 @@ The following sequence diagram shows how the mclear operation works:
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `OneWordCommandParser` should
  end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
-<br/>
+
+<div style="page-break-after: always;"></div>
 
 The follow activity diagram summarizes what happens when a user executes a mclear command:
 
 ![MclearActivityDiagram](images/MclearActivityDiagram.png)
+
+<div style="page-break-after: always;"></div>
 
 ### Switch active semester feature
 
@@ -429,6 +436,8 @@ The following activity diagram summarizes what happens when a user executes a sw
   * Pros: More efficient to list the modules of a certain instructor.
   * Cons: Need to add semester field to modules and commands, will have two copies of the same module if held in both semesters, more code to change.
 
+<div style="page-break-after: always;"></div>
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -440,6 +449,8 @@ The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It ex
 * `VersionedAddressBook#redo()` — Restores a previously undone FaculType state from its history.
 
 These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+
+<div style="page-break-after: always;"></div>
 
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
@@ -469,6 +480,8 @@ Step 4. The user now decides that adding the contact was a mistake, and decides 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
 than attempting to perform the undo.
 
+<div style="page-break-after: always;"></div>
+
 </div>
 
 The following sequence diagram shows how the undo operation works:
@@ -493,6 +506,8 @@ Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Sinc
 
 ![UndoRedoState5](images/UndoRedoState5.png)
 
+<div style="page-break-after: always;"></div>
+
 The following activity diagram summarizes what happens when a user executes a new command:
 
 ![CommitActivityDiagram](images/CommitActivityDiagram.png)
@@ -511,6 +526,7 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Cons: We must ensure that the implementation of each individual command is correct.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Current bugs and feature ideas**
 
@@ -545,6 +561,7 @@ Example of the instructor bug:
 * Differentiate instructor tags in module cards for instructors with the same name (Coming soon).
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Documentation, logging, testing, configuration, dev-ops**
 
@@ -573,6 +590,7 @@ Example of the instructor bug:
 
 **Value proposition**: manage faculty members and modules faster than a typical mouse/GUI driven app
 
+<div style="page-break-after: always;"></div>
 
 ### User stories
 
@@ -701,6 +719,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
+<div style="page-break-after: always;"></div>
+
 **Use case: Add a contact**
 
 **MSS**
@@ -821,6 +841,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a1. FaculType shows an error message.
 
       Use case resumes at step 2.
+
+<div style="page-break-after: always;"></div>
 
 **Use case: Add a module**
 
@@ -1012,6 +1034,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
+<div style="page-break-after: always;"></div>
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
@@ -1042,6 +1066,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Assignment**: A module handled by a contact. Assignment links a contact with a module. Once linked, the contact can be considered an instructor.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Instructions for manual testing**
 
@@ -1151,6 +1176,8 @@ Expected : Error message saying "Module list is already empty".
 1. Test case: `exit x`
    Expected: No changes. The application remains running. Error details shown in the status message.
 
+<div style="page-break-after: always;"></div>
+
 ### Saving data
 
 1. Dealing with corrupted data files
@@ -1222,6 +1249,8 @@ Expected : Error message saying "Module list is already empty".
    1. Test case: delete `data/addressbook.json` <br>
       Expected: All contact and module information will be deleted and FaculType will restart with the placeholder
        contact and module information.
+
+<div style="page-break-after: always;"></div>
 
 ### Adding a contact
 
@@ -1318,6 +1347,8 @@ Expected : Error message saying "Module list is already empty".
    1. Test cases similar to previous.
    Expected: Similar to each respective test cases, but the contact list is reset to show all contacts.
 
+<div style="page-break-after: always;"></div>
+
 ### Adding or editing a remark
 
 1. Adding or editing a remark while all contacts ae being shown
@@ -1357,6 +1388,8 @@ Expected : Error message saying "Module list is already empty".
 
 1. Other incorrect find commands to try: `find p/abcdef`, `find`, `find Alice`, `...`
    Expected: Similar to previous.
+
+<div style="page-break-after: always;"></div>
 
 ### Adding a module
 
@@ -1416,6 +1449,8 @@ Expected : Error message saying "Module list is already empty".
 
 1. Other incorrect find module commands to try: `findmod m/CS**`, `findmod`, `findmod Alice`, `...`
    Expected: Similar to previous.
+
+<div style="page-break-after: always;"></div>
 
 ### Assigning a contact to one or more modules
 
@@ -1487,6 +1522,7 @@ Expected : Error message saying "Module list is already empty".
    Expected: No contact is unassigned. Error details shown in the status message.
 
 --------------------------------------------------------------------------------------------------------------------
+<div style="page-break-after: always;"></div>
 
 ## **Appendix: Effort**
 
