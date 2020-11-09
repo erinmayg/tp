@@ -502,6 +502,7 @@ Step 5. The user then decides to execute the command `list`. Commands that do no
 
 ![UndoRedoState4](images/UndoRedoState4.png)
 
+<div style="page-break-after: always;"></div>
 Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all FaculType states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
 
 ![UndoRedoState5](images/UndoRedoState5.png)
@@ -609,6 +610,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | faculty leader          | edit a contact's department        | keep the contact data up to date                                                     |
 | `* * *`  | faculty leader          | add a new module                   |                                                                                      |
 | `* * *`  | faculty leader          | delete a module                    | remove modules no longer offered                                                     |
+<div style="page-break-after: always;"></div>
 | `* * *`  | faculty leader          | find modules by attributes         | locate modules without having to go through the entire list                          |
 | `* * *`  | faculty leader          | find modules by the instructor's name | locate modules instructed by the instructor                                       |
 | `* * *`  | faculty leader          | assign a contact to various modules       | keep track of the modules they instruct                                       |
@@ -617,6 +619,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                    | clear all contacts                  |                                                                                     |
 | `* * *`  | faculty leader          | clear all modules                   | discard all the semester's information                                              |
 | `* * *`  | faculty leader          | be able to switch semesters easily   | manage the other semester without having to reassign instructors                   |
+
+<div style="page-break-after: always;"></div>
 
 ### Use cases
 
@@ -674,6 +678,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 2a1. FaculType shows an error message.
       
       Use case ends.
+
+<div style="page-break-after: always;"></div>
 
 **Use case: Resetting data**
 
@@ -767,6 +773,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+<div style="page-break-after: always;"></div>
+
 **Use case: Edit a contact**
 
 **MSS**
@@ -795,6 +803,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3b1. FaculType shows an error message.
 
       Use case resumes at step 2.
+
+<div style="page-break-after: always;"></div>
 
 **Use case: Add or update a remark**
 
@@ -889,6 +899,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case resumes at step 1.
 
+<div style="page-break-after: always;"></div>
+
 **Use case: Find module(s)**
 
 **MSS**
@@ -911,6 +923,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 3a1. FaculType shows an error message.
 
       Use case resumes at step 2.
+
+<div style="page-break-after: always;"></div>
 
 **Use case: Assign a contact to module(s)**
 
@@ -946,6 +960,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 5b1. FaculType shows an error message.
 
       Use case resumes at step 4.
+
+<div style="page-break-after: always;"></div>
 
 **Use case: Unassign a contact from module(s)**
 
@@ -987,6 +1003,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     * 5c1. FaculType shows an error message.
 
       Use case resumes at step 4.
+
+<div style="page-break-after: always;"></div>
 
 **Use case: Unassign a contact from all modules**
 
@@ -1099,6 +1117,8 @@ testers are expected to do more *exploratory* testing.
     
 1. Test case: `list x`
    Expected: Both lists remain in their original state. Error details shown in the status message.
+
+<div style="page-break-after: always;"></div>
        
 ### Listing all contacts 
 
@@ -1136,6 +1156,8 @@ testers are expected to do more *exploratory* testing.
 
 1. Test case: `reset x`
    Expected: Nothing is changed or deleted. Error details shown in the status message.
+
+<div style="page-break-after: always;"></div>
 
 ### Clearing all contacts from the contact list
 
@@ -1211,6 +1233,7 @@ Expected : Error message saying "Module list is already empty".
               Example: `CS123**` <br>
               Expected: FaculType will restart with the placeholder contacts and modules, all previous information
               will be deleted.
+              <div style="page-break-after: always;"></div>
             - Test case: invalid module name <br>
               Insert any special character into the module name.<br>
               Example: `Programming Meth***`<br>
@@ -1278,7 +1301,7 @@ Expected : Error message saying "Module list is already empty".
 
    1. Test cases similar to previous.
    Expected: similar to each respective test cases but the contact list is reset to show all contacts.
- 
+ <div style="page-break-after: always;"></div>
 1. Adding a contact with identical attributes
 
    1. Prerequisites: There exists a contact in the contact list.
@@ -1415,6 +1438,8 @@ Expected : Error message saying "Module list is already empty".
    1. Test cases similar to previous.
    Expected: Similar to each respective test cases, but the module list is reset to show all modules.
 
+<div style="page-break-after: always;"></div>
+
 ### Deleting a module
 
 1. Deleting a module while all modules are being shown
@@ -1476,7 +1501,7 @@ Expected : Error message saying "Module list is already empty".
 
    1. Other incorrect assign commands to try: `assign m/cs2013`, `assign`, `assign x m/cs2103`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
-
+<div style="page-break-after: always;"></div>
 1. Assigning a contact while contacts are being filtered
 
    1. Prerequisites: Filter contacts by attributes using the `find` command and list all modules using the `mlist` command. Other prerequisites are similar to previous.
@@ -1510,6 +1535,8 @@ Expected : Error message saying "Module list is already empty".
    1. Prerequisites: Filter contacts by attributes using the `find` command and list all modules using the `mlist` command. Other prerequisites are similar to previous.
 
    1. Test cases similar to previous.
+   
+<div style="page-break-after: always;"></div>
 
 ### Unassigning all contacts
 
@@ -1547,6 +1574,8 @@ The team modified the GUI to accommodate these changes, including the color sche
 
 The project is harder to develop than AB3 because FaculType has two entity types (compared to one in AB3) and the module entity type has to have two separate lists.
 
+<div style="page-break-after: always;"></div>
+
 ### Difficulties and Challenges
 
 As most of the developer team had never worked on a brown-field project before, working on the project seemed like a monumental task at first, even with the tutorials provided.
@@ -1563,3 +1592,4 @@ A working product had to be done by the end of each week, even if the current it
 
 Each team member had to be ready to review PRs every day of the week and continuous communication through a chat group was necessary to ensure everybody was on the same page.
 Documentation files had to be updated regularly to ensure every feature listed in the files is accurate as of the current feature's implementation.
+````
